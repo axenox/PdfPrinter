@@ -1,0 +1,24 @@
+{
+    "name": "axenox/pdfprinter",
+    "require": {
+        "exface/core": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "\\axenox\\PDFPrinter\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Config/",
+            "/Translations/",
+            "/Model/"
+        ]
+    },
+    "extra": {
+        "app": {
+            "app_uid": "0x11ec9aca6499463c9aca025041000001",
+            "app_alias": "axenox.PDFPrinter",
+            "model_md5": "2bec6d592617c88249bc889186ef709d",
+            "model_timestamp": "2022-02-08 10:46:37"
+        }
+    }
+}
