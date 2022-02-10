@@ -24,7 +24,7 @@ use exface\Core\Actions\PrintTemplate;
  * from the given app
  * - `[#~input:column_name#]` - will be replaced by the value from `column_name` of the input data sheet
  * of the action
- * - `[#=Formula()#]` - will evaluate the formula (e.g. `=Now()`) in the context each row of the input data
+ * - `[#~input:=Formula()#]` - will evaluate the formula (e.g. `=Now()`) in the context each row of the input data
  * - any other placeholders defined in `data_placeholders` - see below.
  * 
  * ## Data placeholders
@@ -36,7 +36,7 @@ use exface\Core\Actions\PrintTemplate;
  * and a configuration for its contents:
  * 
  * - `data_sheet` to load the data 
- * - `row_template` to fill with placeholders from every row of the `data_sheet` - e.g. `[#~data:some_attribute#]`.
+ * - `row_template` to fill with placeholders from every row of the `data_sheet` - e.g. `[#~data:some_attribute#]`, `[#~data:=Formula()#]`.
  * 
  * ## Example
  * 
