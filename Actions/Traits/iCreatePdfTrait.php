@@ -39,10 +39,8 @@ trait iCreatePdfTrait
         // instantiate and use the dompdf class
         $dompdf = new Dompdf();
         $options = $dompdf->getOptions();
-        $options->setDefaultFont('Courier');
         $options->setIsRemoteEnabled(true);
         $options->setIsPhpEnabled(true);
-        $dompdf->setOptions($options);
         $dompdf->loadHtml($contentHtml);
         
         // (Optional) Setup the paper size and orientation
