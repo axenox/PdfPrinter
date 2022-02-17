@@ -2,7 +2,8 @@
     "name": "axenox/pdfprinter",
     "require": {
         "exface/core": "^1.0",
-        "dompdf/dompdf": "^1.2"
+        "dompdf/dompdf": "^1.2",
+		"ext-gd": "*"
     },
     "autoload": {
         "psr-4": {
