@@ -8,6 +8,7 @@ use exface\Core\Factories\ResultFactory;
 use axenox\PDFPrinter\Interfaces\Actions\iCreatePdf;
 use axenox\PDFPrinter\Actions\Traits\iCreatePdfTrait;
 use exface\Core\Actions\PrintTemplate;
+use exface\Core\DataTypes\StringDataType;
 
 /**
  * This action produces PDFs from HTML-based templates.
@@ -83,6 +84,8 @@ class PrintPdf extends PrintTemplate implements iCreatePdf
 {
     use iCreatePdfTrait;
     
+    private $createAsHtml = false;
+    
     /**
      * {@inheritdoc}
      * @see PrintTemplate::perform()
@@ -93,7 +96,14 @@ class PrintPdf extends PrintTemplate implements iCreatePdf
         $contents = $this->renderTemplate($inputData);
         
         foreach ($contents as $filePath => $html) {
-            file_put_contents($filePath, $this->createPdf($html));
+            if ($this->createAsHtml === true) {
+                if (StringDataType::endsWith($filePath, '.pdf', false)) {
+                    $filePath = (StringDataType::substringBefore($filePath, '.pdf') . '.html');
+                }
+                file_put_contents($filePath, $html);
+            } else {
+                file_put_contents($filePath, $this->createPdf($html));
+            }
         }
         $result = ResultFactory::createFileResult($task, $filePath);
         
@@ -107,6 +117,18 @@ class PrintPdf extends PrintTemplate implements iCreatePdf
     protected function getFileExtensionDefault() : string
     {
         return '.pdf';
+    }
+    
+    /**
+     * @uxon-property create_as_html
+     * @uxon-type boolean
+     * 
+     * @param bool $trueOrFalse
+     */    
+    public function setCreateAsHtml(bool $trueOrFalse)
+    {
+        $this->createAsHtml = $trueOrFalse;
+        $this->setMimeType('text/html');
     }
     
     /**
