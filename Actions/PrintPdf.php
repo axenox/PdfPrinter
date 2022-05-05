@@ -16,6 +16,10 @@ use exface\Core\DataTypes\StringDataType;
  * The template can either be set inside the action property `template` or read from
  * a file specified by the `template_path` (absolute or relative to the vendor folder).
  * 
+ * Under the hood, the `dompdf` library is used to convert HTML to PDF. There is a playground,
+ * you can use to scetch up your PDFs here: https://eclecticgeek.com/dompdf/debug.php. This
+ * link is also usefull if you receive unexpected results and need some debug information.
+ * 
  * ## Template placeholders
  * 
  * The template must be valid HTML and can contain the following placehodlers:
