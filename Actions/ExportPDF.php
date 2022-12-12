@@ -1,5 +1,4 @@
 <?php
-
 namespace axenox\PDFPrinter\Actions;
 
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
@@ -33,17 +32,14 @@ class ExportPDF extends ExportJSON implements iCreatePdf
     }
     
     /**
-     * Generates an array of column names from the passed array of widgets.
-     *
-     * The column name array is returned.
-     *
-     * @param WidgetInterface $widget
-     * @return string[]
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Actions\ExportJSON::writeHeader($exportedWidget, $exportedSheet)
      */
-    protected function writeHeader(WidgetInterface $exportedWidget) : array
+    protected function writeHeader(array $exportedColumns) : array
     {
-        $contentHtml = $this->writeHtmlBegin($exportedWidget);
-        $columnNames = parent::writeHeader($exportedWidget);
+        $contentHtml = $this->writeHtmlBegin($exportedColumns);
+        $columnNames = parent::writeHeader($exportedColumns);
         $contentHtml .= <<<HTML
             <table style="border-collapse: collapse; border: 0.5pt solid black; width: 100%">
                 <thead>
@@ -62,9 +58,15 @@ HTML;
         return $columnNames;
     }
     
-    protected function writeHtmlBegin(WidgetInterface $exportedWidget) : string
+    /**
+     * 
+     * @param array $exportedColumns
+     * @return string
+     */
+    protected function writeHtmlBegin(array $exportedColumns) : string
     {
         $count = 0;
+        $exportedWidget = $exportedColumns[0]->getDataWidget();
         if ($exportedWidget instanceof Data) {
             foreach ($exportedWidget->getFilters() as $filter_widget) {
                 if ($filter_widget->getValue()) {
