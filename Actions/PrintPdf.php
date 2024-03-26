@@ -109,7 +109,7 @@ class PrintPdf extends PrintTemplate implements iCreatePdf
                 file_put_contents($filePath, $this->createPdf($html));
             }
         }
-        $result = ResultFactory::createFileResult($task, $filePath);
+        $result = ResultFactory::createFileResult($task, $filePath, $this->isDownloadable());
         
         return $result;
     }
