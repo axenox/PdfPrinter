@@ -181,6 +181,7 @@ HTML;
 </html>
 HTML;
         $filecontent = $this->createPdf($contentHtml, $this->getOrientation());
+        $this->generateFilePathAbsolute($dataSheet);
         fwrite($this->getWriter(), $filecontent);
         fclose($this->getWriter());
     }
@@ -224,7 +225,7 @@ HTML;
     protected function getWriter()
     {
         if (is_null($this->writer)) {
-            $this->writer = fopen($this->getFilePathAbsolute(), 'x+');
+            $this->writer = fopen($this->getFilePath(), 'x+');
         }
         return $this->writer;
     }
