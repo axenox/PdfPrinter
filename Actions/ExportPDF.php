@@ -217,7 +217,7 @@ HTML;
 </html>
 HTML;
         $filecontent = $this->createPdf($contentHtml, $this->getOrientation());
-        $this->generateFilePathAbsolute($dataSheet);
+        $this->initializeFilePathAbsolute($dataSheet);
         fwrite($this->getWriter(), $filecontent);
         fclose($this->getWriter());
     }
