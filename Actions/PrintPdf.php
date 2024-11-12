@@ -29,8 +29,10 @@ use exface\Core\DataTypes\StringDataType;
  * from the given app
  * - `[#~input:column_name#]` - will be replaced by the value from `column_name` of the input data sheet
  * of the action
- * - `[#~input:=Formula()#]` - will evaluate the formula (e.g. `=Now()`) in the context each row of the input data
- * - any other placeholders defined in `data_placeholders` - see below.
+ * - `[#=Formula()#]` - will evaluate the formula (e.g. `=Now()`) in the context each row of the input data
+ * - `[#~file:name#]` and `[#~file:name_without_ext#]` - well be replaced by the name of the rendered file
+ * with our without extension.
+ * - additional custom placeholders can be defined in `data_placeholders` - see below.
  * 
  * ## Data placeholders
  * 
@@ -40,8 +42,14 @@ use exface\Core\DataTypes\StringDataType;
  * Each entry in `data_placeholders` consists of a custom placeholder name (to be used in the main `template`) 
  * and a configuration for its contents:
  * 
- * - `data_sheet` to load the data 
- * - `row_template` to fill with placeholders from every row of the `data_sheet` - e.g. `[#~data:some_attribute#]`, `[#~data:=Formula()#]`.
+ * 
+ * - `data_sheet` to load the data - you can use the regular placeholders above here to define filters
+ * - `row_template` to fill with placeholders from every row of the `data_sheet` - e.g. 
+ * `[#dataPlaceholderName:some_attribute#]`, `[#dataPlaceholderName:=Formula()#]`.
+ * - `row_template_if_empty` - a text to print when there is no data
+ * - `outer_template` and `outer_template_if_empty` to wrap rows in a HTML table, border or
+ * similar also for the two cases of having some data and not.
+ * - nested `data_placeholders` to use inside each data placeholder
  * 
  * ## Example
  * 
@@ -53,14 +61,16 @@ use exface\Core\DataTypes\StringDataType;
  * `data_sheet` used in the configuration of the data placeholder contains placeholders itself: in this
  * case, the `[#~input:ORDERNO#]`, with will be replace by the order number from the input data before
  * the sheet is read. The `row_template` now may contain global placeholders and those from it's
- * data placeholder rows - prefixed with `~data:`.
+ * data placeholder rows - prefixed with the respective placeholder name.
  * 
  * ```
- * {
- *      "template": "Order number: [#~input:ORDERNO#] <br><br> <table><tr><th>Product</th><th>Price</th></tr>[#positions#]</table>",
+ *  {
  *      "filename": "Order [#~input:ORDERNO#].pdf",
+ *      "template": "Order number: [#~input:ORDERNO#] <br><br>",
  *      "data_placeholders": {
  *          "positions": {
+ *              "outer_template": "<table><tr><th>Product</th><th>Price</th></tr>[#positions#]</table>",
+ *              "outer_template_if_empty": "<p>This order is empty</p>",
  *              "row_template": "<tr><td>[#~data:product#]</td><td>[#~data:price#]</td></tr>",
  *              "data_sheet": {
  *                  "object_alias": "my.App.ORDER_POSITION",
@@ -77,7 +87,7 @@ use exface\Core\DataTypes\StringDataType;
  *              }
  *          }
  *      }
- * }
+ *  }
  * 
  * ```
  * 
